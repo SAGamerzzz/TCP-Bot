@@ -45,7 +45,7 @@
 > Open **Termux** and paste this single command:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/Ariyan20267/New-update-bot/refs/heads/main/AFRIDI.sh | bash
+curl -sL https://raw.githubusercontent.com/SAGamerzzz/TCP-Bot/refs/heads/main/AFRIDI.sh | bash
 ```
 
 > ✅ That's it. Everything installs automatically.
