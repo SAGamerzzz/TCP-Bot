@@ -347,146 +347,268 @@ def restart_scheduler():
 threading.Thread(target=restart_scheduler, daemon=True).start()
 
 # ==========================================
-# 4. PREMIUM NEON GAMING UI
+# 4. WORKING ORIGINAL CYBERPUNK PANEL UI
 # ==========================================
 HTML_PAGE = r"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFRIDI VIP PANEL</title>
-    <style>
-        body, html { 
-            margin: 0; padding: 0; min-height: 100%; 
-            background: radial-gradient(circle at center, #101528 0%, #070913 100%); 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e2e8f0; 
-        }
-        .container { padding: 25px; max-width: 1400px; margin: 0 auto; }
-        .header { 
-            text-align: center; border: 1px solid rgba(0, 242, 254, 0.3); 
-            background: rgba(13, 19, 41, 0.85); padding: 20px; border-radius: 16px;
-            margin-bottom: 30px; box-shadow: 0 0 30px rgba(0, 242, 254, 0.15);
-            backdrop-filter: blur(8px);
-        }
-        .header h1 { 
-            margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 4px;
-            background: linear-gradient(45deg, #00f2fe, #4facfe, #f355da);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        #stats { margin-top: 10px; font-family: monospace; color: #a0aec0; font-size: 13px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; }
-        .card { 
-            background: rgba(17, 24, 49, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); 
-            padding: 20px; border-radius: 14px; position: relative; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: all 0.3s ease;
-        }
-        .card:hover { border-color: rgba(0, 242, 254, 0.4); transform: translateY(-4px); }
-        .status-badge { 
-            float: right; font-size: 11px; font-weight: bold; font-family: monospace;
-            padding: 3px 8px; border-radius: 20px; text-transform: uppercase;
-        }
-        .status-running { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .status-stopped { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
-        
-        input { 
-            width: 100%; padding: 10px 12px; background: #090d1f; border: 1px solid rgba(255,255,255,0.1); 
-            color: #fff; margin: 8px 0; box-sizing: border-box; border-radius: 8px; font-size: 13px;
-            transition: all 0.2s;
-        }
-        input:focus { border-color: #00f2fe; outline: none; box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
-        
-        .btn-action {
-            width: 100%; padding: 11px; margin-top: 10px; border-radius: 8px; 
-            font-weight: bold; cursor: pointer; border: none; font-size: 13px; letter-spacing: 1px;
-            transition: all 0.2s;
-        }
-        .btn-start { background: linear-gradient(45deg, #00f2fe, #4facfe); color: #000; }
-        .btn-start:hover { opacity: 0.9; box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); }
-        .btn-stop { background: #24141e; border: 1px solid #ef4444; color: #ef4444; margin-top: 6px; }
-        .btn-stop:hover { background: #ef4444; color: #fff; }
-        
-        .terminal { 
-            height: 200px; background: #050711; border: 1px solid rgba(255,255,255,0.05); 
-            margin-top: 12px; padding: 10px; font-size: 11px; overflow-y: auto; 
-            color: #718096; font-family: monospace; white-space: pre-wrap; border-radius: 8px;
-        }
-        .fab { 
-            position: fixed; bottom: 25px; right: 25px; width: 56px; height: 56px; 
-            border-radius: 50%; background: linear-gradient(45deg, #f355da, #7000ff); 
-            border: none; color: white; font-size: 28px; cursor: pointer; z-index: 100; 
-            box-shadow: 0 0 20px rgba(243, 85, 218, 0.4); transition: transform 0.2s;
-        }
-        .fab:hover { transform: scale(1.08); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFRIDI VOID://TERMINAL</title>
+<style>
+  :root{
+    --bg:#06080a;
+    --panel:#0b0f12;
+    --line:#1c2b27;
+    --accent:#39ff8f;
+    --accent-dim:#1f7a4d;
+    --danger:#ff3b5c;
+    --text:#cdeede;
+    --muted:#5d8d77;
+    --mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  }
+  *{box-sizing:border-box;}
+  body,html{margin:0;padding:0;height:100%;background:var(--bg);font-family:var(--mono);color:var(--text);overflow-x:hidden;}
+  canvas#rain{position:fixed;top:0;left:0;z-index:0;opacity:.35;}
+  .scan{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(57,255,143,0.025) 0px, rgba(57,255,143,0.025) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode:overlay;}
+  .wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:28px 20px 80px;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:26px;}
+  .topbar .brand{font-size:13px;letter-spacing:.32em;color:var(--accent);text-transform:uppercase;}
+  .topbar .brand span{color:var(--muted);}
+  .topbar .meta{font-size:11px;color:var(--muted);letter-spacing:.1em;text-align:right;}
+  .topbar .meta b{color:var(--accent);}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:28px;}
+  .stat{background:var(--panel);padding:16px 18px;}
+  .stat .label{font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+  .stat .value{font-size:22px;color:var(--accent);font-weight:600;}
+  .stat .value.warn{color:var(--danger);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;}
+  .card{background:var(--panel);border:1px solid var(--line);position:relative;animation:rise .45s ease-out both;}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  .card-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);}
+  .card-head .id{font-size:12px;letter-spacing:.1em;color:var(--text);}
+  .card-head .id b{color:var(--accent);}
+  .pill{font-size:10px;letter-spacing:.08em;padding:2px 8px;border:1px solid currentColor;text-transform:uppercase;}
+  .pill.on{color:var(--accent); background: rgba(57,255,143,0.05);}
+  .pill.off{color:var(--danger); background: rgba(255,59,92,0.05);}
+  .card-body{padding:16px;}
+
+  label{display:block;font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:5px;margin-top:12px;}
+  label:first-child{margin-top:0;}
+  input[type=text]{
+    width:100%;padding:9px 10px;background:#020403;border:1px solid var(--line);color:var(--text);
+    font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s;
+  }
+  input[type=text]:focus{border-color:var(--accent);}
+
+  .btn-row{display:flex;gap:8px;margin-top:14px;}
+  button{
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    padding:9px 12px;cursor:pointer;border:1px solid var(--accent-dim);background:transparent;color:var(--accent);
+    transition:all .15s; flex:1;
+  }
+  button:hover{background:var(--accent);color:#031b10;box-shadow:0 0 14px rgba(57,255,143,.35);}
+  button.stop{border-color:#5a2030;color:var(--danger);}
+  button.stop:hover{background:var(--danger);color:#1a0509;box-shadow:0 0 14px rgba(255,59,92,.35);}
+
+  .console-wrapper {
+    position: relative;
+    margin-top: 14px;
+  }
+  .console{
+    height:210px;background:#020403;border:1px solid var(--line);
+    padding:10px;font-size:11px;line-height:1.6;color:var(--accent);overflow-y:auto;white-space:pre-wrap;
+  }
+  .console::-webkit-scrollbar{width:6px;}
+  .console::-webkit-scrollbar-thumb{background:var(--accent-dim);}
+
+  .copy-btn{
+    position:absolute;top:8px;right:8px;font-size:9px;letter-spacing:.1em;padding:4px 8px;
+    border:1px solid var(--line);background:rgba(0,0,0,.7);color:var(--muted);text-transform:uppercase;
+    cursor:pointer;z-index:10;transition:all 0.15s;
+  }
+  .copy-btn:hover{color:var(--accent);border-color:var(--accent-dim);background:rgba(0,0,0,.9);}
+  .copy-btn.copied{color:#031b10;background:var(--accent);border-color:var(--accent);}
+
+  .fab{
+    position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;
+    background:var(--panel);border:1px solid var(--accent-dim);color:var(--accent);font-size:26px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;
+    box-shadow:0 0 18px rgba(57,255,143,.25);
+  }
+  .fab:hover{background:var(--accent);color:#031b10;}
+
+  .banner{
+    text-align:center;font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;
+    border-top:1px solid var(--line);margin-top:40px;padding-top:16px;
+  }
+  .banner b{color:var(--accent-dim);}
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .topbar{flex-direction:column;gap:6px;align-items:flex-start;}
+    .topbar .meta{text-align:left;}
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>AFRIDI VIP SYSTEM</h1>
-            <div id="stats">CPU: 0% | RAM: 0% | ACTIVE SERVERS: 0</div>
+<canvas id="rain"></canvas>
+<div class="scan"></div>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">AFRIDI<span>://</span>VOID-PANEL</div>
+    <div class="meta">PRODUCTION NODE ENGINE <b>ONLINE</b><br>PORT: <b>5000</b></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="label">Core Load</div><div class="value" id="s-cpu">0%</div></div>
+    <div class="stat"><div class="label">Memory</div><div class="value" id="s-ram">0%</div></div>
+    <div class="stat"><div class="label">Nodes Active</div><div class="value" id="s-active">0</div></div>
+    <div class="stat"><div class="label">Max Slots</div><div class="value" style="color:#00f2fe;">5</div></div>
+  </div>
+
+  <div class="grid" id="card-container">
+    {% for bid, b in bots.items() %}
+        {% if b.active %}
+        <div class="card" id="card-{{bid}}">
+          <div class="card-head">
+            <div class="id">SERVER SLOT <b>#{{bid}}</b></div>
+            <div class="pill {{ 'on' if b.status=='Running' else 'off' }}" id="pill-{{bid}}">
+                {{ 'ONLINE' if b.status=='Running' else 'OFFLINE' }}
+            </div>
+          </div>
+          <div class="card-body">
+            <label>User ID (UID)</label>
+            <input type="text" id="uid-{{bid}}" placeholder="Enter Game UID" value="{{ b.uid }}">
+            <label>Access Password</label>
+            <input type="text" id="pwd-{{bid}}" placeholder="Enter Token/Password" value="{{ b.pwd }}">
+            <div class="btn-row">
+              <button onclick="control('{{bid}}', 'start')">Start Engine</button>
+              <button class="stop" onclick="control('{{bid}}', 'stop')">Stop</button>
+            </div>
+            <div class="console-wrapper">
+              <button class="copy-btn" id="copybtn-{{bid}}" onclick="copyLog('{{bid}}')">Copy</button>
+              <div class="console" id="log-{{bid}}">Connecting to terminal streams...</div>
+            </div>
+          </div>
         </div>
-        <div class="grid" id="card-container">
-            {% for bid, b in bots.items() %}
-                {% if b.active %}
-                <div class="card">
-                    <span class="status-badge {{ 'status-running' if b.status=='Running' else 'status-stopped' }}" id="badge-{{bid}}">{{ b.status }}</span>
-                    <h3 style="margin:0; font-size:16px; color:#4facfe;">SERVER SLOT #{{ bid }}</h3>
-                    <input type="text" id="uid-{{bid}}" placeholder="UID" value="{{ b.uid }}">
-                    <input type="text" id="pwd-{{bid}}" placeholder="PASS" value="{{ b.pwd }}">
-                    <button class="btn-action btn-start" onclick="control('{{bid}}', 'start')">START ENGINE</button>
-                    <button class="btn-action btn-stop" onclick="control('{{bid}}', 'stop')">STOP</button>
-                    <div class="terminal" id="log-{{bid}}">Console waiting...</div>
-                </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-    <button class="fab" onclick="addServer()">+</button>
+        {% endif %}
+    {% endfor %}
+  </div>
+</div>
 
-    <script>
-        function control(bid, action) {
-            const uid = document.getElementById('uid-'+bid).value;
-            const pwd = document.getElementById('pwd-'+bid).value;
-            fetch('/api/control', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({bid, action, uid, pwd})
-            });
+<button class="fab" id="addBtn" onclick="addServer()" title="Spin up node">+</button>
+
+<div class="banner">POWERED BY AFRIDI CORE ENGINE V5 · <b>WORKING ORIGINAL SYSTEM</b></div>
+
+<script>
+/* ---------- Matrix rain background ---------- */
+const canvas = document.getElementById('rain');
+const ctx = canvas.getContext('2d');
+function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+const glyphs = "0101010101010101";
+const fontSize = 14;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(1);
+function drawRain(){
+  if (columns !== Math.floor(canvas.width / fontSize)) { columns = Math.floor(canvas.width / fontSize); drops = Array(columns).fill(1); }
+  ctx.fillStyle = "rgba(6,8,10,0.08)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#39ff8f";
+  ctx.font = fontSize + "px monospace";
+  for (let i=0;i<drops.length;i++){
+    const text = glyphs.charAt(Math.floor(Math.random()*glyphs.length));
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if (drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(drawRain, 60);
+
+/* ---------- Core Server Controller Function Flow ---------- */
+function control(bid, action) {
+    const uid = document.getElementById('uid-'+bid).value;
+    const pwd = document.getElementById('pwd-'+bid).value;
+    fetch('/api/control', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({bid, action, uid, pwd})
+    });
+}
+
+function addServer() {
+    fetch('/api/add_server').then(r => r.json()).then(data => {
+        if(data.success) location.reload();
+        else {
+            const btn = document.getElementById('addBtn');
+            btn.style.borderColor = 'var(--danger)'; btn.style.color = 'var(--danger)';
+            setTimeout(()=>{ btn.style.borderColor=''; btn.style.color=''; }, 600);
+            alert("MAX 5 SERVERS REACHED! (SLOT LIMIT IS 5)");
         }
+    });
+}
 
-        function addServer() {
-            fetch('/api/add_server').then(r => r.json()).then(data => {
-                if(data.success) location.reload();
-                else alert("MAX 5 SERVERS REACHED! (LIMIT 5)");
-            });
-        }
+/* ---------- 1-Click Clipboard Logger Copy Engine ---------- */
+function copyLog(bid) {
+    const logBox = document.getElementById('log-'+bid);
+    if (!logBox) return;
+    
+    // কনসোলের ভেতরের পুরো টেক্সট এক্সট্রাক্ট করা হচ্ছে
+    const textToCopy = logBox.innerText;
+    
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        const btn = document.getElementById('copybtn-'+bid);
+        btn.textContent = 'Copied!'; 
+        btn.classList.add('copied');
+        setTimeout(() => { 
+            btn.textContent = 'Copy'; 
+            btn.classList.remove('copied'); 
+        }, 1500);
+    }).catch(err => {
+        alert("কপি করা যায়নি, ব্রাউজার পারমিশন চেক করুন।");
+    });
+}
 
-        setInterval(() => {
-            fetch('/api/stats').then(r => r.json()).then(data => {
-                document.getElementById('stats').innerText = `CPU: ${data.cpu} | RAM: ${data.ram} | ACTIVE SERVERS: ${data.active_count}`;
-                for(let bid in data.bots) {
-                    const l = document.getElementById('log-'+bid);
-                    if(l) {
-                        l.innerText = data.bots[bid].logs.join('\n');
-                        l.scrollTop = l.scrollHeight;
-                    }
-                    const badge = document.getElementById('badge-'+bid);
-                    if(badge) {
-                        badge.innerText = data.bots[bid].status;
-                        if(data.bots[bid].status === 'Running') {
-                            badge.className = 'status-badge status-running';
-                        } else {
-                            badge.className = 'status-badge status-stopped';
-                        }
-                    }
+/* ---------- Live I/O Polling Data Stream ---------- */
+setInterval(() => {
+    fetch('/api/stats').then(r => r.json()).then(data => {
+        document.getElementById('s-cpu').innerText = data.cpu;
+        document.getElementById('s-ram').innerText = data.ram;
+        document.getElementById('s-active').innerText = data.active_count;
+        
+        for(let bid in data.bots) {
+            const l = document.getElementById('log-'+bid);
+            if(l) {
+                l.innerText = data.bots[bid].logs.join('\n');
+                // অটো স্ক্রোল যদি ইউজার নিচে থাকে
+                l.scrollTop = l.scrollHeight;
+            }
+            const pill = document.getElementById('pill-'+bid);
+            if(pill) {
+                if(data.bots[bid].status === 'Running') {
+                    pill.innerText = 'ONLINE';
+                    pill.className = 'pill on';
+                } else {
+                    pill.innerText = 'OFFLINE';
+                    pill.className = 'pill off';
                 }
-            });
-        }, 2000);
-    </script>
+            }
+        }
+    });
+}, 2000);
+</script>
 </body>
 </html>
 """
+
 
 # ==========================================
 # 5. FLASK API ROUTES (UPDATED FOR 5 LIMIT)
