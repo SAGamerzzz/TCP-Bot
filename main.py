@@ -174,7 +174,9 @@ MODULES = [
     ("protobuf",            "google.protobuf",     "pip"),
     ("google-play-scraper", "google_play_scraper", "pip"),
     ("pytz",                "pytz",                "pip"),
+    ("python-cfonts",       "cfonts",              "pip"),  # 👈 এই লাইনটি নতুন যুক্ত করা হয়েছে
 ]
+
 
 PKG_NAMES = {
     "psutil": "python-psutil",
