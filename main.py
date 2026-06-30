@@ -301,6 +301,7 @@ def load_config():
         except: pass
 
 def run_bot_engine(bid):
+def run_bot_engine(bid):
     b = bots[bid]
     bot_dir = os.path.join(CURRENT_DIR, f"Afridi_VIP_{bid}")
     
@@ -312,7 +313,8 @@ def run_bot_engine(bid):
     
     while b["status"] == "Running":
         try:
-            with open(os.path.join(bot_dir, "AFRIDI.txt"), 'w') as f:
+            # 💡 এখানে আগে AFRIDI.txt ছিল, সেটিকে পরিবর্তন করে ARIYAN.txt করা হলো
+            with open(os.path.join(bot_dir, "ARIYAN.txt"), 'w') as f:
                 json.dump({b["uid"]: b["pwd"]}, f, indent=4)
 
             b["process"] = subprocess.Popen(
