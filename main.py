@@ -174,9 +174,8 @@ MODULES = [
     ("protobuf",            "google.protobuf",     "pip"),
     ("google-play-scraper", "google_play_scraper", "pip"),
     ("pytz",                "pytz",                "pip"),
-    ("python-cfonts",       "cfonts",              "pip"),  # 👈 এই লাইনটি নতুন যুক্ত করা হয়েছে
+    ("python-cfonts",       "cfonts",              "pip"),  
 ]
-
 
 PKG_NAMES = {
     "psutil": "python-psutil",
@@ -301,19 +300,19 @@ def load_config():
         except: pass
 
 def run_bot_engine(bid):
-def run_bot_engine(bid):
     b = bots[bid]
     bot_dir = os.path.join(CURRENT_DIR, f"Afridi_VIP_{bid}")
     
     if os.path.exists(bot_dir):
         b["logs"].append(f"🗑️ [SYS] Removing old clone for Server {bid}...")
         shutil.rmtree(bot_dir, ignore_errors=True)
+        
     b["logs"].append(f"🚀 [SYS] Cloning fresh repo for Server {bid}...")
     subprocess.run(["git", "clone", "--depth", "1", GITHUB_REPO, bot_dir], capture_output=True)
     
     while b["status"] == "Running":
         try:
-            # 💡 এখানে আগে AFRIDI.txt ছিল, সেটিকে পরিবর্তন করে ARIYAN.txt করা হলো
+            # ARIYAN.txt ফাইল জেনারেট করা হচ্ছে
             with open(os.path.join(bot_dir, "ARIYAN.txt"), 'w') as f:
                 json.dump({b["uid"]: b["pwd"]}, f, indent=4)
 
@@ -324,10 +323,12 @@ def run_bot_engine(bid):
             b["start_time"] = time.time()
 
             for line in iter(b["process"].stdout.readline, ''):
-                if b["status"] != "Running": break
+                if b["status"] != "Running": 
+                    break
                 if line.strip():
                     b["logs"].append(line.strip())
-                    if len(b["logs"]) > 100: b["logs"].pop(0)
+                    if len(b["logs"]) > 100: 
+                        b["logs"].pop(0)
             
             b["process"].wait()
             if b["status"] == "Running":
@@ -563,7 +564,6 @@ function copyLog(bid) {
     const logBox = document.getElementById('log-'+bid);
     if (!logBox) return;
     
-    // কনসোলের ভেতরের পুরো টেক্সট এক্সট্রাক্ট করা হচ্ছে
     const textToCopy = logBox.innerText;
     
     navigator.clipboard.writeText(textToCopy).then(() => {
@@ -590,7 +590,6 @@ setInterval(() => {
             const l = document.getElementById('log-'+bid);
             if(l) {
                 l.innerText = data.bots[bid].logs.join('\n');
-                // অটো স্ক্রোল যদি ইউজার নিচে থাকে
                 l.scrollTop = l.scrollHeight;
             }
             const pill = document.getElementById('pill-'+bid);
@@ -610,7 +609,6 @@ setInterval(() => {
 </body>
 </html>
 """
-
 
 # ==========================================
 # 5. FLASK API ROUTES (UPDATED FOR 5 LIMIT)
